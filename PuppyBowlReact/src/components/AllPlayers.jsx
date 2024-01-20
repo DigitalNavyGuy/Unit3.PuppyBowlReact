@@ -6,12 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { API_URL } from "../API/index";
+import "./AllPlayers.css";
 
 const AllPlayers = () => {
   const [puppies, setPuppies] = useState([]);
   const [featPupId, setFeatPupId] = useState(null);
-  const [featuredPup, setFeaturedPup] = useState(null);
-  console.log("featuredPup: ", featuredPup);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,37 +27,27 @@ const AllPlayers = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const selectedPup = puppies.find((pup) => pup.id === featPupId);
-    setFeaturedPup(selectedPup);
-  }, [puppies, featPupId]);
-
   return (
-    <div>
+    <div className="pup-display">
       {puppies.map((puppy) => (
-        <p
+        <Card
+          key={puppy.id}
+          sx={{ maxWidth: 345, marginBottom: 2 }}
           onClick={() => {
             setFeatPupId(puppy.id);
           }}
-          key={puppy.id}
         >
-          {puppy.name}
-        </p>
-      ))}
-
-      {featuredPup && (
-        <Card sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 140 }}
-            image={featuredPup.image}
-            title={featuredPup.name}
+            image={puppy.image}
+            title={puppy.name}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {featuredPup.name}
+              {puppy.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {featuredPup.description}
+              {puppy.description}
             </Typography>
           </CardContent>
           <CardActions>
@@ -66,11 +55,9 @@ const AllPlayers = () => {
             <Button size="small">Learn More</Button>
           </CardActions>
         </Card>
-      )}
+      ))}
     </div>
   );
 };
 
 export default AllPlayers;
-
-// return (
