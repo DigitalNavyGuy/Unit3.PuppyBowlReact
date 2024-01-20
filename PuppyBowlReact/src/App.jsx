@@ -5,7 +5,14 @@ import { puppyList } from "./data";
 import "./App.css";
 
 const App = () => {
-  return <AllPlayers sx={{ display: "flex" }} />;
+  const [featPupId, setFeatPupId] = useState(null);
+
+  return (
+    <div>
+      <AllPlayers setFeatPupId={setFeatPupId} />
+      <SinglePlayer featPupId={featPupId} />
+    </div>
+  );
 };
 
 export default App;

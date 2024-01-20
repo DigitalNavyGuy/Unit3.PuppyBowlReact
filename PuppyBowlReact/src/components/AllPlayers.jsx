@@ -6,16 +6,18 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { API_URL } from "../API/index";
+import AddPlayer from "./AddPlayer";
+import RemovePlayer from "./RemovePlayer";
+import SinglePlayer from "./SinglePlayer";
 import "./AllPlayers.css";
 
-const AllPlayers = () => {
+const AllPlayers = ({ setFeatPupId }) => {
   const [puppies, setPuppies] = useState([]);
-  const [featPupId, setFeatPupId] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAllPlayers = async () => {
       try {
-        const response = await fetch(API_URL + "/players");
+        const response = await fetch(`${API_URL}/players`);
         const result = await response.json();
         console.log(result);
         setPuppies(result.data.players);
@@ -24,19 +26,13 @@ const AllPlayers = () => {
       }
     };
 
-    fetchData();
+    fetchAllPlayers();
   }, []);
 
   return (
     <div className="pup-display">
       {puppies.map((puppy) => (
-        <Card
-          key={puppy.id}
-          sx={{ maxWidth: 345, marginBottom: 2 }}
-          onClick={() => {
-            setFeatPupId(puppy.id);
-          }}
-        >
+        <Card key={puppy.id} sx={{ maxWidth: 345, marginBottom: 2 }}>
           <CardMedia
             sx={{ height: 140 }}
             image={puppy.image}
@@ -51,8 +47,22 @@ const AllPlayers = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button
+              size="small"
+              onClick={() => {
+                setFeatPupId(puppy.id);
+              }}
+            >
+              Details
+            </Button>
+            <Button
+              size="small"
+              onClick={() => {
+                <RemovePlayer />;
+              }}
+            >
+              Remove
+            </Button>
           </CardActions>
         </Card>
       ))}
