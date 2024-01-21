@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SinglePlayer from "./components/SinglePlayer";
 import AllPlayers from "./components/AllPlayers";
 import AddPlayer from "./components/AddPlayer";
-import { puppyList } from "./data";
+// import { puppyList } from "./data";
 import "./App.css";
 import { Box } from "@mui/material";
 
@@ -11,6 +12,12 @@ const App = () => {
 
   return (
     <div>
+      <Router>
+        <Routes>
+          <Route path="/players" exact component={AllPlayers} />
+          <Route path="/players/:id" component={SinglePlayer} />
+        </Routes>
+      </Router>
       <Box sx={{ display: "block", width: "100%" }}>
         <h2>Puppy Bowl</h2>
       </Box>

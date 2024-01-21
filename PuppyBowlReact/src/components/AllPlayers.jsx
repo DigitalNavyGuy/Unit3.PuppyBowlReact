@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { API_URL } from "../API/index";
+import { Link } from "react-router-dom";
 import AddPlayer from "./AddPlayer";
 import RemovePlayer from "./RemovePlayer";
 import SinglePlayer from "./SinglePlayer";
@@ -47,14 +48,9 @@ const AllPlayers = ({ setFeatPupId }) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button
-              size="small"
-              onClick={() => {
-                setFeatPupId(puppy.id);
-              }}
-            >
-              Details
-            </Button>
+            <Link to={`/puppies/${puppy.id}`}>
+              <Button size="small">Details</Button>
+            </Link>
           </CardActions>
         </Card>
       ))}
