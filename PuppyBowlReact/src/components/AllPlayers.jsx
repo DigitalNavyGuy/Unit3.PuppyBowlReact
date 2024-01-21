@@ -32,10 +32,10 @@ const AllPlayers = ({ setFeatPupId }) => {
   return (
     <div className="pup-display">
       {puppies.map((puppy) => (
-        <Card key={puppy.id} sx={{ maxWidth: 345, marginBottom: 2 }}>
+        <Card key={puppy.id} sx={{ minWidth: 300, marginBottom: 2 }}>
           <CardMedia
             sx={{ height: 140 }}
-            image={puppy.image}
+            image={puppy.imageUrl}
             title={puppy.name}
           />
           <CardContent>
@@ -43,7 +43,7 @@ const AllPlayers = ({ setFeatPupId }) => {
               {puppy.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {puppy.description}
+              {puppy.breed}
             </Typography>
           </CardContent>
           <CardActions>
@@ -54,14 +54,6 @@ const AllPlayers = ({ setFeatPupId }) => {
               }}
             >
               Details
-            </Button>
-            <Button
-              size="small"
-              onClick={() => {
-                <RemovePlayer />;
-              }}
-            >
-              Remove
             </Button>
           </CardActions>
         </Card>

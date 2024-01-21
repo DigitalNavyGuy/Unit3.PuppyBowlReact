@@ -1,6 +1,8 @@
+import { API_URL } from "../API";
+
 const RemovePlayer = async (playerId) => {
   try {
-    const response = await fetch(`${APIURL}/${playerId}`, {
+    const response = await fetch(`${API_URL}/${playerId}`, {
       method: "DELETE",
     });
 
@@ -8,7 +10,8 @@ const RemovePlayer = async (playerId) => {
       throw new Error("Fetch failed to remove player.");
     }
 
-    const result = await response.json();
+    const result = puppies.filter((player) => player.id !== playerId);
+    setPuppies(result);
     console.log(result);
   } catch (err) {
     console.error(

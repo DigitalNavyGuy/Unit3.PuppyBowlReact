@@ -1,4 +1,3 @@
-// SinglePlayer.js
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -10,6 +9,7 @@ import {
   Button,
 } from "@mui/material";
 import { API_URL } from "../API";
+import RemovePlayer from "./RemovePlayer";
 
 const SinglePlayer = ({ featPupId: id }) => {
   const [player, setPlayer] = useState(null);
@@ -38,7 +38,7 @@ const SinglePlayer = ({ featPupId: id }) => {
         <Card sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 140 }}
-            image={player.image}
+            image={player.imageUrl}
             title={player.name}
           />
           <CardContent>
@@ -46,12 +46,19 @@ const SinglePlayer = ({ featPupId: id }) => {
               {player.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {player.description}
+              {player.status}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Remove Player</Button>
             <Button size="small">Return to List</Button>
+            <Button
+              size="small"
+              onClick={() => {
+                setPuppies();
+              }}
+            >
+              Remove Player
+            </Button>
           </CardActions>
         </Card>
       )}

@@ -1,6 +1,12 @@
 .pup-display {
+    margin-top: 25px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+form {
+    display: flex;
+    align-items: center;
 }
