@@ -1,29 +1,20 @@
-import { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { API_URL } from "../API/index";
-import { Link } from "react-router-dom";
-import AddPlayer from "./AddPlayer";
-import RemovePlayer from "./RemovePlayer";
-import SinglePlayer from "./SinglePlayer";
-import "./AllPlayers.css";
+import React, { useEffect, useState } from "react";
+import { API_URL } from "../API";
 
-const AllPlayers = ({ setFeatPupId }) => {
-  const [puppies, setPuppies] = useState([]);
+const AllPlayers = () => {
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     const fetchAllPlayers = async () => {
       try {
         const response = await fetch(`${API_URL}/players`);
-        const result = await response.json();
-        console.log(result);
-        setPuppies(result.data.players);
+        if (!response.ok) {
+          throw new Error("Failed to fetch all players");
+        }
+        const data = await response.json();
+        setPlayers(data.data.players);
       } catch (err) {
-        console.error(err);
+        console.error("Uh oh, trouble fetching players!", err);
       }
     };
 
@@ -31,29 +22,13 @@ const AllPlayers = ({ setFeatPupId }) => {
   }, []);
 
   return (
-    <div className="pup-display">
-      {puppies.map((puppy) => (
-        <Card key={puppy.id} sx={{ minWidth: 300, marginBottom: 2 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image={puppy.imageUrl}
-            title={puppy.name}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {puppy.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {puppy.breed}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Link to={`/puppies/${puppy.id}`}>
-              <Button size="small">Details</Button>
-            </Link>
-          </CardActions>
-        </Card>
-      ))}
+    <div>
+      <h2>Player List</h2>
+      <ul>
+        {players.map((player) => (
+          <li key={player.id}>{player.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { API_URL } from "../API";
-import RemovePlayer from "./RemovePlayer";
 
-const SinglePlayer = ({ featPupId: id }) => {
+const SinglePlayer = (id) => {
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {
@@ -19,48 +9,32 @@ const SinglePlayer = ({ featPupId: id }) => {
       try {
         const response = await fetch(`${API_URL}/players/${id}`);
         if (!response.ok) {
-          throw new Error("Failed to fetch player");
+          throw new Error("Fetch failed to fetch player.");
         }
         const data = await response.json();
-        const fetchedPlayer = data.data.player;
+        console.log(data);
+
+        data.player = data.data.player;
+        const fetchedPlayer = data.player;
         setPlayer(fetchedPlayer);
       } catch (err) {
-        console.error(`Error fetching player #${id}:`, err);
+        console.error(`Oh no, trouble fetching player #!`, err);
       }
     };
 
     fetchSinglePlayer();
-  }, [id]);
+  }, []);
 
   return (
-    <div>
+    <div className="player-container">
       {player && (
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image={player.imageUrl}
-            title={player.name}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {player.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {player.status}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Return to List</Button>
-            <Button
-              size="small"
-              onClick={() => {
-                setPuppies();
-              }}
-            >
-              Remove Player
-            </Button>
-          </CardActions>
-        </Card>
+        <>
+          <h2>{player.name}</h2>
+          <img src={player.imageUrl} alt={player.name} />
+          <h3>Breed: {player.breed}</h3>
+          <h3>Status: {player.status}</h3>
+          <button className="close-button btn">Close</button>
+        </>
       )}
     </div>
   );
