@@ -21,7 +21,9 @@ const App = () => {
       </Box>
       <Box>
         <h2>Featured Pup</h2>
-        <SinglePlayer featPupId={featPupId} />
+        {featPupId && (
+          <SinglePlayer featPupId={featPupId} setFeatPupId={setFeatPupId} />
+        )}
         <h2>Roster</h2>
         <AllPlayers setFeatPupId={setFeatPupId} />
       </Box>

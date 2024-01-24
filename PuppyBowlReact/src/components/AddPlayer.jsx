@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { API_URL } from "../API";
 
-const AddPlayer = ({ onAddPlayer }) => {
+const AddPlayer = () => {
   const [playerData, setPlayerData] = useState({
     name: "",
     breed: "",
@@ -20,29 +20,21 @@ const AddPlayer = ({ onAddPlayer }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(onAddPlayer);
+    console.log();
     try {
-      const response = await fetch(
-        `https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-et-web-pt-sf/players`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(playerData),
-          name: "",
-          breed: "",
-          imageUrl: "",
-          status: "",
-        }
-      );
+      const response = await fetch(`${API_URL}/players`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(playerData),
+      });
 
       if (!response.ok) {
         throw new Error("Fetch failed to add new player.");
       }
 
       const result = await response.json();
-      onAddPlayer(result.data.player);
       console.log(result);
 
       setPlayerData({
@@ -93,7 +85,7 @@ const AddPlayer = ({ onAddPlayer }) => {
           label="Status"
           variant="outlined"
           size="normal"
-          name="imageUrl"
+          name="status"
           value={playerData.status}
           onChange={handleChange}
           margin="normal"

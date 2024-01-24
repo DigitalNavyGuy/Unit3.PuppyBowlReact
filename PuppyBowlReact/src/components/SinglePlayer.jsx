@@ -11,26 +11,54 @@ import {
 import { API_URL } from "../API";
 import RemovePlayer from "./RemovePlayer";
 
-const SinglePlayer = ({ featPupId: id }) => {
+const SinglePlayer = ({ featPupId, setFeatPupId }) => {
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {
     const fetchSinglePlayer = async () => {
       try {
-        const response = await fetch(`${API_URL}/players/${id}`);
+        if (featPupId === null || featPupId === undefined) {
+          return;
+        }
+
+        const response = await fetch(`${API_URL}/players/${featPupId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch player");
         }
         const data = await response.json();
+        console.log(data);
         const fetchedPlayer = data.data.player;
         setPlayer(fetchedPlayer);
       } catch (err) {
-        console.error(`Error fetching player #${id}:`, err);
+        console.error(`Error fetching player #${featPupId}:`, err);
       }
     };
 
     fetchSinglePlayer();
-  }, [id]);
+  }, [featPupId]);
+
+  // Remove puppy logic
+  const removePlayer = async (playerId) => {
+    try {
+      const response = await fetch(`${API_URL}/players/${playerId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Fetch failed to remove player.");
+      }
+
+      const result = puppies.filter((player) => player.id !== playerId);
+      setPuppies(result);
+      setFeatPupId(null);
+      console.log(result);
+    } catch (err) {
+      console.error(
+        `Whoops, trouble removing player #${playerId} from the roster!`,
+        err
+      );
+    }
+  };
 
   return (
     <div>
@@ -54,7 +82,7 @@ const SinglePlayer = ({ featPupId: id }) => {
             <Button
               size="small"
               onClick={() => {
-                setPuppies();
+                removePlayer(featPupId);
               }}
             >
               Remove Player
